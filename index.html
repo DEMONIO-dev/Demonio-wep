@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEMONIO — JavaScript, Node.js & Python Developer</title>
+<meta name="description" content="DEMONIO — مطور JavaScript و Python متخصص في بناء بوتات Node.js وأدوات أتمتة وتكاملات API. شاهد المسيرة والمستودعات الحية على GitHub.">
+<meta name="keywords" content="DEMONIO, JavaScript developer, Node.js bots, Python automation, Telegram bot developer, Discord bot developer">
+<meta name="author" content="DEMONIO">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://demonio.dev/">
+<meta name="theme-color" content="#0a0910">
+<meta name="content-language" content="ar">
+<link rel="icon" href="/assets/favicon.ico">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="DEMONIO — JavaScript, Node.js & Python Developer">
+<meta property="og:description" content="مطور JavaScript و Python متخصص في بناء بوتات Node.js وأدوات أتمتة وتكاملات API.">
+<meta property="og:url" content="https://demonio.dev/">
+<meta property="og:image" content="/assets/og-image.png">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:locale:alternate" content="en_US">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DEMONIO — JavaScript, Node.js & Python Developer">
+<meta name="twitter:description" content="مطور JavaScript و Python متخصص في بناء بوتات Node.js وأدوات أتمتة وتكاملات API.">
+<meta name="twitter:image" content="/assets/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "name": "DEMONIO",
+      "jobTitle": "JavaScript, Node.js & Python Developer",
+      "url": "https://demonio.dev/",
+      "sameAs": [
+        "https://github.com/demonio-dev",
+        "https://t.me/ch_demonio"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "name": "DEMONIO",
+      "url": "https://demonio.dev/"
+    }
+  ]
+}
+</script>
+<!--
+  ملاحظات نشر: عند رفع الموقع على استضافة حقيقية:
+  1) استبدل https://demonio.dev/ بدومينك الفعلي في canonical و og:url و JSON-LD.
+  2) أضف ملفي robots.txt و sitemap.xml في جذر الاستضافة.
+  3) ضع صورة حقيقية في /assets/og-image.png وأيقونة في /assets/favicon.ico.
+-->
+
+<style>
+  :root{
+    --bg:#0a0910; --bg-2:#120f1c; --surface:#171325; --surface-2:#1d1830; --line:#262138;
+    --text:#f3eefb; --muted:#948fae;
+    --ember:#ff5a3c; --ember-soft:#ff8a63; --violet:#8a6bff;
+    --green:#5be08a;
+    --radius:18px;
+    --dur:.25s;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; line-height:1.7; overflow-x:hidden; }
+  .display{ font-family:'Bricolage Grotesque',sans-serif; }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  .ltr{ direction:ltr; unicode-bidi:isolate; font-family:'JetBrains Mono',monospace; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  img{ max-width:100%; display:block; }
+  section{ position:relative; z-index:1; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  :focus-visible{ outline:2px solid var(--ember-soft); outline-offset:3px; border-radius:4px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+    #glow{ display:none !important; }
+  }
+
+  body::before{
+    content:""; position:fixed; inset:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 50% -10%, rgba(255,90,60,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 90% 20%, rgba(138,107,255,0.10), transparent 60%);
+    pointer-events:none; z-index:0;
+  }
+
+  #glow{
+    position:fixed; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,90,60,.16), transparent 70%);
+    pointer-events:none; z-index:2; transform:translate(-50%,-50%);
+    mix-blend-mode:screen; transition:opacity .3s; opacity:0;
+  }
+  #progress{ position:fixed; top:0; left:0; height:2.5px; width:0%; background:linear-gradient(90deg, var(--ember), var(--violet)); z-index:200; transition:width .1s; }
+
+  /* خلفية فيزيائية: شبكة جسيمات متحركة تتفاعل مع الماوس */
+  #bgCanvas{ position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.55; }
+
+  /* ===== NAV ===== */
+  header.nav{ position:sticky; top:0; z-index:100; background:rgba(10,9,16,.72); backdrop-filter:blur(14px); border-bottom:1px solid var(--line); }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:1120px; margin:0 auto; gap:16px; }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand .mark{ width:34px; height:34px; border-radius:9px; background:linear-gradient(145deg, var(--ember), #a83a24); display:flex; align-items:center; justify-content:center; font-family:'Bricolage Grotesque',sans-serif; font-weight:800; font-size:17px; color:#0a0910; box-shadow:0 6px 18px -4px rgba(255,90,60,.55); }
+  .brand span{ font-family:'Bricolage Grotesque',sans-serif; font-weight:700; letter-spacing:.5px; font-size:17px; }
+  nav.links{ display:flex; gap:26px; font-size:14px; color:var(--muted); }
+  nav.links a{ position:relative; padding:4px 0; }
+  nav.links a::after{ content:""; position:absolute; bottom:0; inset-inline:0; height:1.5px; background:var(--ember-soft); transform:scaleX(0); transition:transform var(--dur); }
+  nav.links a:hover{ color:var(--text); }
+  nav.links a:hover::after{ transform:scaleX(1); }
+  .nav-right{ display:flex; align-items:center; gap:10px; margin-inline-start:auto; }
+
+  .cmd-trigger{ display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--line); padding:8px 14px; border-radius:100px; color:var(--muted); font-size:13.5px; transition:.2s; border-width:1px; }
+  .cmd-trigger:hover{ border-color:var(--ember-soft); color:var(--text); }
+  .cmd-trigger kbd{ font-family:'JetBrains Mono',monospace; background:var(--bg-2); border:1px solid var(--line); border-radius:5px; padding:1px 7px; font-size:12px; color:var(--text); }
+  .icon-btn{ background:var(--surface); border:1px solid var(--line); color:var(--text); width:38px; height:38px; border-radius:100px; font-family:'JetBrains Mono',monospace; font-weight:600; font-size:12.5px; transition:.2s; display:flex; align-items:center; justify-content:center; }
+  .icon-btn:hover{ border-color:var(--ember-soft); color:var(--ember-soft); }
+  .nav-cta{ background:var(--text); color:var(--bg); padding:9px 18px; border-radius:100px; font-weight:700; font-size:14px; transition:.2s; display:inline-block; border:1px solid transparent; }
+  .nav-cta:hover{ background:var(--ember-soft); }
+  .hamburger{ display:none; }
+  @media(max-width:820px){
+    nav.links, .cmd-trigger span{ display:none; }
+    .hamburger{ display:flex; }
+  }
+
+  #mobileMenu{ position:fixed; inset:0; background:rgba(8,7,13,.97); z-index:250; display:flex; flex-direction:column; padding:90px 30px 30px; gap:6px; transform:translateY(-8px); opacity:0; pointer-events:none; transition:.22s; }
+  #mobileMenu.open{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  #mobileMenu a{ font-size:22px; font-family:'Bricolage Grotesque',sans-serif; font-weight:600; padding:16px 4px; border-bottom:1px solid var(--line); }
+  #mobileMenu a:hover{ color:var(--ember-soft); }
+  #mobileClose{ position:absolute; top:20px; inset-inline-end:24px; }
+
+  /* ===== HERO ===== */
+  .hero{ padding:100px 24px 60px; text-align:center; }
+  .badge{ display:inline-flex; align-items:center; gap:8px; background:var(--surface); border:1px solid var(--line); padding:7px 16px; border-radius:100px; font-size:13px; color:var(--muted); margin-bottom:26px; }
+  .badge .pulse{ width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 1.8s infinite; }
+  @keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(91,224,138,.55);} 70%{box-shadow:0 0 0 9px rgba(91,224,138,0);} 100%{box-shadow:0 0 0 0 rgba(91,224,138,0);} }
+  h1.name{ font-size:clamp(48px,10vw,100px); font-weight:800; letter-spacing:-2px; line-height:.95; background:linear-gradient(180deg,#ffffff 10%,#b9b2d4 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .role{ font-family:'JetBrains Mono',monospace; color:var(--ember-soft); font-size:15px; letter-spacing:1px; margin-top:14px; }
+  .tagline{ font-size:clamp(16px,2.2vw,19px); color:var(--muted); max-width:58ch; margin:18px auto 0; }
+  .tagline b{ color:var(--text); font-weight:700; }
+  .hero-actions{ display:flex; gap:14px; justify-content:center; margin-top:34px; flex-wrap:wrap; }
+  .btn{ display:inline-flex; align-items:center; gap:9px; padding:13px 24px; border-radius:100px; font-weight:700; font-size:14.5px; transition:.2s; border:1px solid transparent; }
+  .btn.primary{ background:linear-gradient(120deg,var(--ember),#d94a30); color:#fff; box-shadow:0 12px 28px -10px rgba(255,90,60,.55); }
+  .btn.primary:hover{ transform:translateY(-2px); }
+  .btn.ghost{ border-color:var(--line); color:var(--text); background:var(--surface); }
+  .btn.ghost:hover{ border-color:var(--ember-soft); transform:translateY(-2px); }
+
+  .status-panel{ margin:56px auto 0; max-width:760px; background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:20px 24px; text-align:start; }
+  .status-row{ display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--muted); padding:6px 0; direction:ltr; justify-content:flex-start; }
+  .status-row .dot{ width:7px; height:7px; border-radius:50%; background:var(--green); flex-shrink:0; }
+  .status-row b{ color:var(--text); font-family:'JetBrains Mono',monospace; font-weight:600; }
+  .signal{ margin-top:14px; }
+  .signal-label{ display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:8px; direction:ltr; }
+  .signal svg{ width:100%; height:56px; display:block; }
+  .signal path.line{ fill:none; stroke:var(--ember); stroke-width:2; filter:drop-shadow(0 0 8px rgba(255,90,60,.55)); }
+  .signal path.track{ fill:none; stroke:var(--line); stroke-width:1; }
+
+  .section{ padding:90px 24px; max-width:1120px; margin:0 auto; }
+  .eyebrow{ font-family:'JetBrains Mono',monospace; font-size:12.5px; letter-spacing:2px; color:var(--ember-soft); margin-bottom:14px; direction:ltr; display:inline-block; }
+  h2.section-title{ font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:clamp(26px,4vw,38px); letter-spacing:-1px; margin-bottom:14px; }
+  .section-lead{ color:var(--muted); max-width:62ch; font-size:15.5px; margin-bottom:44px; }
+
+  .about-text{ color:var(--muted); font-size:16px; max-width:70ch; }
+  .about-text b{ color:var(--text); }
+
+  .stack-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media(max-width:900px){ .stack-grid{ grid-template-columns:repeat(2,1fr); } }
+  .stack-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; transition:.25s; }
+  .stack-card:hover{ border-color:var(--ember-soft); transform:translateY(-3px); }
+  .stack-card .top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .stack-card .glyph{ width:38px; height:38px; border-radius:10px; background:var(--bg-2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--ember-soft); font-size:13px; }
+  .level{ font-size:10.5px; font-family:'JetBrains Mono',monospace; padding:2px 8px; border-radius:100px; border:1px solid var(--line); color:var(--muted); }
+  .level.adv{ color:var(--green); border-color:rgba(91,224,138,.35); }
+  .level.int{ color:var(--ember-soft); border-color:rgba(255,138,99,.35); }
+  .stack-card h3{ font-family:'Bricolage Grotesque',sans-serif; font-size:15.5px; margin-bottom:4px; }
+  .stack-card p{ color:var(--muted); font-size:12.5px; }
+
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media(max-width:900px){ .services-grid{ grid-template-columns:1fr; } }
+  .service-card{ background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:24px; transition:.25s; }
+  .service-card:hover{ border-color:var(--violet); transform:translateY(-3px); }
+  .service-card h3{ font-family:'Bricolage Grotesque',sans-serif; font-size:17px; margin-bottom:8px; }
+  .service-card p{ color:var(--muted); font-size:13.5px; }
+
+  .terminal-box{ background:#0e0c16; border:1px solid var(--line); border-radius:16px; overflow:hidden; }
+  .terminal-head{ display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line); background:var(--surface); }
+  .terminal-head .dot{ width:10px; height:10px; border-radius:50%; }
+  .terminal-head .dot.r{ background:#ff5f56; } .terminal-head .dot.y{ background:#ffbd2e; } .terminal-head .dot.g{ background:#27c93f; }
+  .terminal-head span{ margin-inline-start:auto; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--muted); direction:ltr; }
+  #termOutput{ padding:18px; height:280px; overflow-y:auto; font-family:'JetBrains Mono',monospace; font-size:13.5px; direction:ltr; text-align:left; color:var(--text); }
+  #termOutput .line{ margin-bottom:4px; white-space:pre-wrap; word-break:break-word; }
+  #termOutput .prompt{ color:var(--green); }
+  #termOutput .out{ color:var(--muted); }
+  #termOutput .err{ color:var(--ember-soft); }
+  .terminal-input-row{ display:flex; align-items:center; gap:8px; padding:12px 16px; border-top:1px solid var(--line); direction:ltr; }
+  .terminal-input-row .prompt{ color:var(--green); font-family:'JetBrains Mono',monospace; font-size:13.5px; }
+  #termInput{ flex:1; background:transparent; border:none; outline:none; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:13.5px; }
+  .term-hint{ font-size:12px; color:var(--muted); margin-top:10px; direction:ltr; }
+
+  .timeline{ position:relative; padding-inline-start:26px; }
+  .timeline::before{ content:""; position:absolute; inset-inline-start:6px; top:6px; bottom:6px; width:2px; background:linear-gradient(180deg, var(--ember), var(--violet)); }
+  .t-item{ position:relative; padding-bottom:34px; }
+  .t-item:last-child{ padding-bottom:0; }
+  .t-item::before{ content:""; position:absolute; inset-inline-start:-26px; top:4px; width:12px; height:12px; border-radius:50%; background:var(--ember); box-shadow:0 0 0 4px rgba(255,90,60,.18); }
+  .t-year{ font-family:'JetBrains Mono',monospace; color:var(--ember-soft); font-size:13px; margin-bottom:4px; direction:ltr; display:inline-block; }
+  .t-title{ font-family:'Bricolage Grotesque',sans-serif; font-size:17px; margin-bottom:4px; }
+  .t-desc{ color:var(--muted); font-size:14px; }
+
+  .stats-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media(max-width:820px){ .stats-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media(max-width:520px){ .stats-grid{ grid-template-columns:repeat(2,1fr); } }
+  .stat-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px 16px; text-align:center; }
+  .stat-card .num{ font-family:'Bricolage Grotesque',sans-serif; font-size:28px; font-weight:800; color:var(--ember-soft); margin-bottom:6px; min-height:34px; }
+  .stat-card .lbl{ font-size:12px; color:var(--muted); letter-spacing:.5px; }
+  .stat-note{ margin-top:16px; font-size:12.5px; color:var(--muted); text-align:center; direction:ltr; display:flex; align-items:center; justify-content:center; gap:10px; }
+  .retry-btn{ background:var(--surface); border:1px solid var(--line); color:var(--ember-soft); padding:6px 14px; border-radius:100px; font-size:12px; }
+  .retry-btn:hover{ border-color:var(--ember-soft); }
+
+  .repos-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:36px; }
+  @media(max-width:900px){ .repos-grid{ grid-template-columns:1fr; } }
+  .repo-card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:20px; transition:.2s; }
+  .repo-card:hover{ border-color:var(--ember-soft); transform:translateY(-3px); }
+  .repo-card h3{ font-family:'JetBrains Mono',monospace; font-size:14.5px; margin-bottom:6px; direction:ltr; text-align:left; }
+  .repo-card p{ color:var(--muted); font-size:13px; margin-bottom:12px; min-height:34px; }
+  .repo-meta{ display:flex; gap:14px; font-size:12px; color:var(--muted); direction:ltr; flex-wrap:wrap; }
+  .repo-skel{ background:var(--surface); border:1px solid var(--line); border-radius:14px; height:120px; position:relative; overflow:hidden; }
+  .repo-skel::after{ content:""; position:absolute; inset:0; background:linear-gradient(90deg, transparent, rgba(255,255,255,.05), transparent); animation:shimmer 1.4s infinite; }
+  @keyframes shimmer{ from{ transform:translateX(-100%); } to{ transform:translateX(100%); } }
+
+  .connect-cta{ background:linear-gradient(135deg, rgba(255,90,60,.12), rgba(138,107,255,.10)); border:1px solid var(--line); border-radius:20px; padding:36px; text-align:center; margin-bottom:30px; }
+  .connect-cta h3{ font-family:'Bricolage Grotesque',sans-serif; font-size:26px; margin-bottom:8px; }
+  .connect-cta p{ color:var(--muted); margin-bottom:20px; }
+  .connect-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media(max-width:680px){ .connect-grid{ grid-template-columns:1fr; } }
+  .connect-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:26px; display:flex; align-items:center; justify-content:space-between; transition:.25s; }
+  .connect-card:hover{ border-color:var(--ember-soft); transform:translateY(-4px); background:var(--bg-2); }
+  .connect-card .info{ display:flex; align-items:center; gap:16px; }
+  .connect-card .icon{ width:46px; height:46px; border-radius:13px; background:var(--bg-2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .connect-card .icon svg{ width:21px; height:21px; }
+  .connect-card .label{ font-size:12.5px; color:var(--muted); margin-bottom:3px; }
+  .connect-card .handle{ font-family:'JetBrains Mono',monospace; font-weight:600; font-size:15px; }
+  .connect-card .arrow{ color:var(--muted); font-size:19px; transition:.2s; }
+  .connect-card:hover .arrow{ color:var(--ember-soft); }
+
+  footer{ border-top:1px solid var(--line); padding:40px 24px; text-align:center; color:var(--muted); font-size:13px; }
+  footer .f-brand{ font-family:'Bricolage Grotesque',sans-serif; font-weight:700; color:var(--text); font-size:16px; margin-bottom:6px; }
+  footer .f-stack{ font-family:'JetBrains Mono',monospace; font-size:12px; margin-bottom:14px; direction:ltr; }
+  footer .f-links{ display:flex; gap:16px; justify-content:center; margin-bottom:14px; }
+  footer .f-links a:hover{ color:var(--ember-soft); }
+  footer .f-note{ font-size:11.5px; opacity:.7; }
+
+  #backTop{ position:fixed; bottom:24px; inset-inline-end:24px; width:46px; height:46px; border-radius:50%; background:var(--surface); border:1px solid var(--line); color:var(--text); font-size:18px; display:flex; align-items:center; justify-content:center; z-index:90; opacity:0; pointer-events:none; transition:.25s; }
+  #backTop.show{ opacity:1; pointer-events:auto; }
+  #backTop:hover{ border-color:var(--ember-soft); color:var(--ember-soft); transform:translateY(-3px); }
+
+  #cmdOverlay{ position:fixed; inset:0; background:rgba(6,5,10,.75); backdrop-filter:blur(6px); display:flex; align-items:flex-start; justify-content:center; padding-top:14vh; z-index:300; opacity:0; pointer-events:none; transition:opacity .18s; }
+  #cmdOverlay.open{ opacity:1; pointer-events:auto; }
+  .cmd-box{ width:min(560px,90vw); background:var(--surface); border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:0 40px 80px -20px rgba(0,0,0,.6); transform:translateY(-10px); transition:transform .18s; }
+  #cmdOverlay.open .cmd-box{ transform:translateY(0); }
+  #cmdInput{ width:100%; background:transparent; border:none; outline:none; color:var(--text); font-size:16px; padding:20px; font-family:'Manrope',sans-serif; border-bottom:1px solid var(--line); }
+  #cmdInput::placeholder{ color:var(--muted); }
+  .cmd-list{ max-height:300px; overflow-y:auto; padding:8px; }
+  .cmd-item{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:10px; font-size:14.5px; }
+  .cmd-item:hover, .cmd-item.sel{ background:var(--bg-2); }
+  .cmd-item .tag{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ember-soft); border:1px solid var(--line); padding:2px 7px; border-radius:6px; margin-inline-start:auto; }
+
+  ::selection{ background:var(--ember); color:#fff; }
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+<div id="glow" aria-hidden="true"></div>
+<div id="progress" role="progressbar" aria-label="Reading progress"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#home" class="brand" aria-label="DEMONIO — Home">
+      <div class="mark">D</div>
+      <span>DEMONIO</span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#about" data-ar="عني" data-en="About">عني</a>
+      <a href="#stack" data-ar="الأدوات" data-en="Stack">الأدوات</a>
+      <a href="#services" data-ar="خدمات" data-en="Services">خدمات</a>
+      <a href="#github" data-ar="GitHub" data-en="GitHub">GitHub</a>
+      <a href="#journey" data-ar="المسيرة" data-en="Journey">المسيرة</a>
+      <a href="#contact" data-ar="تواصل" data-en="Contact">تواصل</a>
+    </nav>
+    <div class="nav-right">
+      <button class="cmd-trigger" id="cmdTrigger" aria-label="Open quick jump">
+        <span data-ar="بحث سريع" data-en="Quick jump">بحث سريع</span>
+        <kbd>/</kbd>
+      </button>
+      <button class="icon-btn" id="langBtn" aria-label="Switch language">EN</button>
+      <a class="nav-cta ltr" href="https://t.me/ch_demonio" target="_blank" rel="noopener noreferrer">Telegram</a>
+      <button class="icon-btn hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav id="mobileMenu" aria-label="Mobile" aria-hidden="true">
+  <button class="icon-btn" id="mobileClose" aria-label="Close menu">✕</button>
+  <a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+  <a href="#about" data-ar="عني" data-en="About">عني</a>
+  <a href="#stack" data-ar="الأدوات" data-en="Stack">الأدوات</a>
+  <a href="#services" data-ar="خدمات" data-en="Services">خدمات</a>
+  <a href="#github" data-ar="GitHub" data-en="GitHub">GitHub</a>
+  <a href="#journey" data-ar="المسيرة" data-en="Journey">المسيرة</a>
+  <a href="#contact" data-ar="تواصل" data-en="Contact">تواصل</a>
+</nav>
+
+<main>
+
+<section class="hero" id="home">
+  <div class="badge"><span class="pulse"></span> <span data-ar="متاح لتطوير بوتات جديدة" data-en="Available for new projects">متاح لتطوير بوتات جديدة</span></div>
+  <h1 class="display name">DEMONIO</h1>
+  <div class="role ltr">Developer / Bot Builder</div>
+  <p class="tagline" id="tagline">مبرمج <b>JavaScript</b> و <b>Python</b>، متخصص في بناء <b>بوتات Node.js</b>، أدوات <b>أتمتة</b>، وتكاملات <b>API</b> تعمل بدون توقف.</p>
+  <div class="hero-actions">
+    <a class="btn primary ltr" href="https://github.com/demonio-dev" target="_blank" rel="noopener noreferrer">↗ GitHub</a>
+    <a class="btn ghost ltr" href="https://t.me/ch_demonio" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a class="btn ghost" href="#github" data-ar="شاهد الأعمال" data-en="See the work">شاهد الأعمال</a>
+  </div>
+
+  <div class="status-panel">
+    <div class="status-row"><span class="dot"></span> node.js: <b>online</b></div>
+    <div class="status-row"><span class="dot"></span> python: <b>ready</b></div>
+    <div class="status-row"><span class="dot"></span> bots: <b>running</b></div>
+    <div class="signal">
+      <div class="signal-label"><span>uptime</span><span data-ar="بوتات متصلة" data-en="bots online">بوتات متصلة</span></div>
+      <svg viewBox="0 0 700 56" preserveAspectRatio="none">
+        <path class="track" d="M0,28 L700,28"></path>
+        <path class="line" id="pulseLine" d="M0,28 L700,28"></path>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <span class="eyebrow">// about</span>
+  <h2 class="section-title" data-ar="من هو DEMONIO؟" data-en="Who is DEMONIO?">من هو DEMONIO؟</h2>
+  <p class="about-text" data-ar="DEMONIO مطور يبني بوتات وأدوات أتمتة باستخدام JavaScript و Node.js و Python. التركيز الأساسي هو بوتات تعمل باستقرار على مدار الساعة، وتكاملات API نظيفة يسهل توسيعها، لمنصات مثل Telegram وDiscord وWhatsApp." data-en="DEMONIO builds bots and automation tools with JavaScript, Node.js, and Python. The focus is on bots that stay stable around the clock, and clean, extensible API integrations — for platforms like Telegram, Discord, and WhatsApp.">DEMONIO مطور يبني بوتات وأدوات أتمتة باستخدام JavaScript و Node.js و Python. التركيز الأساسي هو بوتات تعمل باستقرار على مدار الساعة، وتكاملات API نظيفة يسهل توسيعها، لمنصات مثل Telegram وDiscord وWhatsApp.</p>
+</section>
+
+<section class="section" id="stack">
+  <span class="eyebrow">// stack</span>
+  <h2 class="section-title" data-ar="الأدوات التي أبني بها" data-en="Tech Stack">الأدوات التي أبني بها</h2>
+  <p class="section-lead" data-ar="ركائز أساسية أستخدمها يوميًا لبناء بوتات وأدوات حقيقية." data-en="Core tools used daily to build real bots and tools.">ركائز أساسية أستخدمها يوميًا لبناء بوتات وأدوات حقيقية.</p>
+  <div class="stack-grid" id="stackGrid"></div>
+</section>
+
+<section class="section" id="services">
+  <span class="eyebrow">// services</span>
+  <h2 class="section-title" data-ar="ما الذي أبنيه" data-en="What I Build">ما الذي أبنيه</h2>
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+
+<section class="section" id="terminal">
+  <span class="eyebrow">// terminal</span>
+  <h2 class="section-title" data-ar="طرفية تفاعلية" data-en="Interactive Terminal">طرفية تفاعلية</h2>
+  <p class="section-lead" data-ar="طرفية وهمية لاستكشاف الموقع — لا تنفّذ أوامر حقيقية. جرّب: help" data-en="A simulated terminal for exploring the site — it doesn't run real commands. Try: help">طرفية وهمية لاستكشاف الموقع — لا تنفّذ أوامر حقيقية. جرّب: help</p>
+  <div class="terminal-box">
+    <div class="terminal-head">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span>demonio@dev:~</span>
+    </div>
+    <div id="termOutput" role="log" aria-live="polite"></div>
+    <div class="terminal-input-row">
+      <span class="prompt">demonio@dev:~$</span>
+      <input id="termInput" class="ltr" type="text" autocomplete="off" spellcheck="false" aria-label="Terminal input">
+    </div>
+  </div>
+  <div class="term-hint" data-ar="الأوامر: help, about, skills, repos, github, contact, clear" data-en="Commands: help, about, skills, repos, github, contact, clear">الأوامر: help, about, skills, repos, github, contact, clear</div>
+</section>
+
+<section class="section" id="github">
+  <span class="eyebrow">// live</span>
+  <h2 class="section-title" data-ar="مباشر من GitHub" data-en="Live from GitHub">مباشر من GitHub</h2>
+  <p class="section-lead" data-ar="إحصائيات ومستودعات حقيقية يتم جلبها مباشرة من حساب demonio-dev." data-en="Real stats and repositories, fetched live from the demonio-dev account.">إحصائيات ومستودعات حقيقية يتم جلبها مباشرة من حساب demonio-dev.</p>
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card"><div class="num" id="statRepos">—</div><div class="lbl" data-ar="مستودعات" data-en="REPOS">مستودعات</div></div>
+    <div class="stat-card"><div class="num" id="statFollowers">—</div><div class="lbl" data-ar="متابعون" data-en="FOLLOWERS">متابعون</div></div>
+    <div class="stat-card"><div class="num" id="statStars">—</div><div class="lbl" data-ar="نجوم" data-en="TOTAL STARS">نجوم</div></div>
+    <div class="stat-card"><div class="num" id="statForks">—</div><div class="lbl" data-ar="فروع" data-en="TOTAL FORKS">فروع</div></div>
+    <div class="stat-card"><div class="num" id="statFollowing">—</div><div class="lbl" data-ar="يتابع" data-en="FOLLOWING">يتابع</div></div>
+    <div class="stat-card"><div class="num" id="statSince">—</div><div class="lbl" data-ar="منذ" data-en="SINCE">منذ</div></div>
+  </div>
+  <div class="stat-note" id="statNote"></div>
+
+  <h3 class="section-title" style="font-size:22px; margin-top:50px;" data-ar="أحدث المستودعات" data-en="Latest GitHub Projects">أحدث المستودعات</h3>
+  <div class="repos-grid" id="reposGrid"></div>
+</section>
+
+<section class="section" id="journey">
+  <span class="eyebrow">// journey</span>
+  <h2 class="section-title" data-ar="مسار المطوّر" data-en="Developer Journey">مسار المطوّر</h2>
+  <p class="section-lead" data-ar="من أول سطر كود إلى بناء بوتات وصلت لجمهور واسع." data-en="From the first line of code to bots that reached a wide audience.">من أول سطر كود إلى بناء بوتات وصلت لجمهور واسع.</p>
+  <div class="timeline" id="timelineList"></div>
+</section>
+
+<section class="section" id="contact">
+  <span class="eyebrow">// contact</span>
+  <div class="connect-cta">
+    <h3 data-ar="عندك فكرة مشروع؟" data-en="Have a project in mind?">عندك فكرة مشروع؟</h3>
+    <p data-ar="خلّينا نبنيه." data-en="Let's build it.">خلّينا نبنيه.</p>
+    <a class="btn primary ltr" href="https://t.me/ch_demonio" target="_blank" rel="noopener noreferrer">Telegram</a>
+  </div>
+  <div class="connect-grid">
+    <a class="connect-card" href="https://github.com/demonio-dev" target="_blank" rel="noopener noreferrer">
+      <div class="info">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.05 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.9-1.33 2.74-1.05 2.74-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.92-2.34 4.79-4.57 5.04.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" fill="#f3eefb"/></svg></div>
+        <div><div class="label">GitHub</div><div class="handle ltr">demonio-dev</div></div>
+      </div>
+      <span class="arrow" aria-hidden="true">←</span>
+    </a>
+    <a class="connect-card" href="https://t.me/ch_demonio" target="_blank" rel="noopener noreferrer">
+      <div class="info">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21.5 4.5 2.7 11.9c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.6.4.9.9.9.4 0 .6-.2.9-.5l2.2-2.1 4.6 3.4c.8.5 1.4.2 1.6-.8l2.9-14c.3-1.2-.4-1.7-1.6-1.2ZM8.6 14.6l9.3-8.3c.4-.4.9-.2.5.2l-8 7.4-.3 3.2-1.5-2.5Z" fill="#f3eefb"/></svg></div>
+        <div><div class="label">Telegram</div><div class="handle ltr">@ch_demonio</div></div>
+      </div>
+      <span class="arrow" aria-hidden="true">←</span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="f-brand">DEMONIO</div>
+  <div class="f-stack">JavaScript • Node.js • Python</div>
+  <div class="f-links">
+    <a href="https://github.com/demonio-dev" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://t.me/ch_demonio" target="_blank" rel="noopener noreferrer">Telegram</a>
+  </div>
+  <div>© 2026 DEMONIO</div>
+  <div class="f-note" data-ar="بُني باستخدام HTML / CSS / JavaScript" data-en="Built with HTML / CSS / JavaScript">بُني باستخدام HTML / CSS / JavaScript</div>
+</footer>
+
+<button id="backTop" aria-label="Back to top">↑</button>
+
+<div id="cmdOverlay">
+  <div class="cmd-box">
+    <input id="cmdInput" data-ar-ph="اكتب أمرًا... جرّب: github" data-en-ph="Type a command... try: github" placeholder="اكتب أمرًا... جرّب: github" aria-label="Command palette">
+    <div class="cmd-list" id="cmdList"></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   LANGUAGE
+   ========================================================= */
+let lang = 'ar';
+const html = document.getElementById('html');
+const langBtn = document.getElementById('langBtn');
+const tagline = document.getElementById('tagline');
+const taglineHTML = {
+  ar: 'مبرمج <b>JavaScript</b> و <b>Python</b>، متخصص في بناء <b>بوتات Node.js</b>، أدوات <b>أتمتة</b>، وتكاملات <b>API</b> تعمل بدون توقف.',
+  en: '<b>JavaScript</b> & <b>Python</b> developer, specialized in building <b>Node.js bots</b>, <b>automation</b> tools, and <b>API</b> integrations that never sleep.'
+};
+function applyLang(){
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  langBtn.textContent = lang === 'ar' ? 'EN' : 'AR';
+  tagline.innerHTML = taglineHTML[lang];
+  document.querySelectorAll('[data-ar]').forEach(el=>{ el.textContent = lang==='ar' ? el.dataset.ar : el.dataset.en; });
+  document.querySelectorAll('[data-ar-ph]').forEach(el=>{ el.placeholder = lang==='ar' ? el.dataset.arPh : el.dataset.enPh; });
+  renderStack(); renderServices(); renderTimeline(); renderRepos();
+}
+langBtn.addEventListener('click', ()=>{ lang = lang==='ar' ? 'en' : 'ar'; applyLang(); });
+// ملاحظة: يمكن استبدال هذا بـ localStorage عند رفع الموقع على استضافة حقيقية خارج معاينة Claude.
+
+/* =========================================================
+   NAVIGATION (mobile menu)
+   ========================================================= */
+const mobileMenu = document.getElementById('mobileMenu');
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileClose = document.getElementById('mobileClose');
+function openMobile(){ mobileMenu.classList.add('open'); mobileMenu.setAttribute('aria-hidden','false'); hamburgerBtn.setAttribute('aria-expanded','true'); }
+function closeMobile(){ mobileMenu.classList.remove('open'); mobileMenu.setAttribute('aria-hidden','true'); hamburgerBtn.setAttribute('aria-expanded','false'); }
+hamburgerBtn.addEventListener('click', openMobile);
+mobileClose.addEventListener('click', closeMobile);
+mobileMenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', closeMobile));
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeMobile(); });
+
+/* =========================================================
+   BACK TO TOP + PROGRESS + GLOW
+   ========================================================= */
+const backTop = document.getElementById('backTop');
+const progress = document.getElementById('progress');
+window.addEventListener('scroll', ()=>{
+  const hEl = document.documentElement;
+  const pct = (hEl.scrollTop) / (hEl.scrollHeight - hEl.clientHeight) * 100;
+  progress.style.width = pct + '%';
+  backTop.classList.toggle('show', hEl.scrollTop > 400);
+});
+backTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+const glow = document.getElementById('glow');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(window.matchMedia('(pointer:fine)').matches && !reduceMotion){
+  document.addEventListener('mousemove', e=>{
+    glow.style.opacity = 1;
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+  });
+  document.addEventListener('mouseleave', ()=> glow.style.opacity = 0);
+}
+
+const pulsePath = document.getElementById('pulseLine');
+let pt = 0;
+function drawPulse(){
+  let d = "M0,28 ";
+  for(let x=0; x<=700; x+=8){
+    const y = 28 + Math.sin((x*0.045)+pt) * (5+Math.sin(pt*0.6)*2.5) * (Math.sin(x*0.01+pt*0.3) > -0.9 ? 1 : 0.15);
+    d += `L${x},${y.toFixed(1)} `;
+  }
+  pulsePath.setAttribute('d', d);
+  pt += 0.06;
+  requestAnimationFrame(drawPulse);
+}
+if(!reduceMotion) drawPulse(); else pulsePath.setAttribute('d','M0,28 L700,28');
+
+/* =========================================================
+   PHYSICS BACKGROUND — شبكة جسيمات تتفاعل مع الماوس
+   ========================================================= */
+(function physicsBackground(){
+  const canvas = document.getElementById('bgCanvas');
+  if(reduceMotion){ canvas.style.display = 'none'; return; }
+  const ctx = canvas.getContext('2d');
+  let w, hgt, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let particles = [];
+  const mouse = { x:null, y:null, active:false };
+
+  function resize(){
+    w = window.innerWidth; hgt = window.innerHeight;
+    canvas.width = w * dpr; canvas.height = hgt * dpr;
+    canvas.style.width = w+'px'; canvas.style.height = hgt+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const count = Math.min(90, Math.max(28, Math.floor((w*hgt)/22000)));
+    particles = Array.from({length:count}, ()=>({
+      x: Math.random()*w, y: Math.random()*hgt,
+      vx: (Math.random()-0.5)*0.35, vy: (Math.random()-0.5)*0.35,
+      r: Math.random()*1.6 + 0.8
+    }));
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  if(window.matchMedia('(pointer:fine)').matches){
+    window.addEventListener('mousemove', e=>{ mouse.x = e.clientX; mouse.y = e.clientY; mouse.active = true; });
+    window.addEventListener('mouseleave', ()=> mouse.active = false);
+  }
+
+  const maxDist = 140;
+  function step(){
+    ctx.clearRect(0,0,w,hgt);
+    for(const p of particles){
+      if(mouse.active){
+        const dx = p.x - mouse.x, dy = p.y - mouse.y;
+        const d2 = dx*dx + dy*dy;
+        if(d2 < 16000){
+          const f = (16000 - d2) / 16000 * 0.03;
+          p.vx += dx * f * 0.02; p.vy += dy * f * 0.02;
+        }
+      }
+      p.x += p.vx; p.y += p.vy;
+      p.vx *= 0.99; p.vy *= 0.99;
+      if(p.x < 0 || p.x > w) p.vx *= -1;
+      if(p.y < 0 || p.y > hgt) p.vy *= -1;
+      p.x = Math.max(0, Math.min(w, p.x));
+      p.y = Math.max(0, Math.min(hgt, p.y));
+    }
+    for(let i=0; i<particles.length; i++){
+      const a = particles[i];
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, a.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,138,99,0.55)';
+      ctx.fill();
+      for(let j=i+1; j<particles.length; j++){
+        const b = particles[j];
+        const dx = a.x-b.x, dy = a.y-b.y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < maxDist){
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(138,107,255,${(1 - dist/maxDist) * 0.18})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+
+function revealOnScroll(selector){
+  const targets = document.querySelectorAll(selector);
+  targets.forEach(el=>{
+    if(el.dataset.revealed) return;
+    el.style.opacity=0; el.style.transform='translateY(14px)'; el.style.transition='opacity .5s ease, transform .5s ease';
+  });
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.style.opacity=1; e.target.style.transform='translateY(0)'; e.target.dataset.revealed='1'; io.unobserve(e.target); }
+    });
+  }, {threshold:0.12});
+  targets.forEach(el=>io.observe(el));
+}
+
+/* =========================================================
+   STACK
+   ========================================================= */
+const STACK = [
+  {name:'JavaScript', level:'adv', d:{ar:'المنطق والأحداث اللحظية.', en:'Logic and real-time events.'}},
+  {name:'Node.js', level:'adv', d:{ar:'بيئة تشغيل البوتات.', en:'Runtime for running bots.'}},
+  {name:'Python', level:'int', d:{ar:'سكربتات وأتمتة.', en:'Scripting and automation.'}},
+  {name:'Git', level:'adv', d:{ar:'تتبع الإصدارات.', en:'Version control.'}},
+  {name:'GitHub', level:'adv', d:{ar:'استضافة وإدارة الكود.', en:'Code hosting & workflow.'}},
+  {name:'REST APIs', level:'int', d:{ar:'تكاملات خارجية.', en:'External integrations.'}},
+  {name:'Linux', level:'int', d:{ar:'بيئة تشغيل السيرفرات.', en:'Server environment.'}},
+  {name:'Automation', level:'adv', d:{ar:'أتمتة المهام المتكررة.', en:'Automating repetitive tasks.'}}
+];
+const levelLabel = {ar:{adv:'متقدم',int:'متوسط',learn:'تعلّم'}, en:{adv:'Advanced',int:'Intermediate',learn:'Learning'}};
+function renderStack(){
+  const grid = document.getElementById('stackGrid');
+  grid.innerHTML = STACK.map(s=>`
+    <div class="stack-card" title="${lang==='ar'?s.d.ar:s.d.en}">
+      <div class="top"><div class="glyph ltr">${s.name.slice(0,2).toUpperCase()}</div><span class="level ${s.level}">${levelLabel[lang][s.level]}</span></div>
+      <h3 class="ltr">${s.name}</h3>
+      <p>${lang==='ar'?s.d.ar:s.d.en}</p>
+    </div>
+  `).join('');
+  revealOnScroll('#stackGrid .stack-card');
+}
+
+/* =========================================================
+   SERVICES
+   ========================================================= */
+const SERVICES = [
+  {ar:'تطوير بوتات', en:'Bot Development', d:{ar:'بوتات Telegram وDiscord وWhatsApp مبنية على Node.js.', en:'Telegram, Discord, and WhatsApp bots built on Node.js.'}},
+  {ar:'الأتمتة', en:'Automation', d:{ar:'سكربتات تُنجز المهام المتكررة تلقائيًا.', en:'Scripts that automate repetitive tasks.'}},
+  {ar:'تطبيقات Node.js', en:'Node.js Applications', d:{ar:'خدمات خلفية سريعة وقابلة للتوسعة.', en:'Fast, scalable backend services.'}},
+  {ar:'تكامل APIs', en:'API Integration', d:{ar:'ربط الأنظمة والخدمات ببعضها بأمان.', en:'Connecting systems and services securely.'}},
+  {ar:'بوتات Discord/Telegram', en:'Discord / Telegram Bots', d:{ar:'أوامر مخصصة وتفاعل لحظي.', en:'Custom commands and real-time interaction.'}},
+  {ar:'أدوات JavaScript مخصصة', en:'Custom JavaScript Tools', d:{ar:'أدوات صغيرة تحل مشاكل محددة.', en:'Small tools built to solve specific problems.'}}
+];
+function renderServices(){
+  const grid = document.getElementById('servicesGrid');
+  grid.innerHTML = SERVICES.map(s=>`
+    <div class="service-card">
+      <h3>${lang==='ar'?s.ar:s.en}</h3>
+      <p>${lang==='ar'?s.d.ar:s.d.en}</p>
+    </div>
+  `).join('');
+  revealOnScroll('#servicesGrid .service-card');
+}
+
+/* =========================================================
+   JOURNEY / TIMELINE — (قابل للتعديل من هذه المصفوفة)
+   ========================================================= */
+const TIMELINE = [
+  { year:'2021',
+    t:{ar:'بداية الطريق', en:'Where it started'},
+    d:{ar:'بدأت أتعلّم لغات البرمجة من الصفر.', en:'Started learning programming languages from scratch.'} },
+  { year:'2022',
+    t:{ar:'أول خطوات عملية', en:'First real steps'},
+    d:{ar:'تطوّرت وبدأت أصنع بوتات ومشاريع صغيرة بنفسي.', en:'Progressed and started building small bots and projects on my own.'} },
+  { year:'2023',
+    t:{ar:'تعاون صنع فرقًا', en:'A collaboration that made a mark'},
+    d:{ar:'تعاونت مع مطورين آخرين، وصنعنا معًا أقوى بوت في ذلك الوقت.', en:'Teamed up with other developers — together we built the strongest bot of that time.'} },
+  { year:'2024',
+    t:{ar:'الاستقلال', en:'Going independent'},
+    d:{ar:'استقللت عن المطورين الآخرين، وبدأت أبني بوتات خاصة بي بالكامل.', en:'Went independent from other developers and started building bots entirely on my own.'} },
+  { year:'2025',
+    t:{ar:'فترة ابتعاد', en:'A step back'},
+    d:{ar:'أخذت فترة اعتزال عن البرمجة.', en:'Took some time away from development.'} },
+  { year:'2026',
+    t:{ar:'العودة بقوة', en:'Back, stronger'},
+    d:{ar:'عدت بالتعاون مع مطوّر آخر، وشاركته في بناء بوت أصبح أقوى بوت في وقتنا الحالي واشتهر على نطاق واسع.', en:'Came back, teamed up with another developer, and together we built a bot that became the strongest of our time — and gained wide recognition.'} }
+];
+function renderTimeline(){
+  const list = document.getElementById('timelineList');
+  list.innerHTML = TIMELINE.map(item=>`
+    <div class="t-item">
+      <div class="t-year">${item.year}</div>
+      <div class="t-title">${lang==='ar'?item.t.ar:item.t.en}</div>
+      <div class="t-desc">${lang==='ar'?item.d.ar:item.d.en}</div>
+    </div>
+  `).join('');
+  revealOnScroll('#timelineList .t-item');
+}
+
+/* =========================================================
+   GITHUB API (stats + repos)
+   ========================================================= */
+const GITHUB_USER = 'demonio-dev';
+let allRepos = [];
+
+function loadGithubStats(){
+  document.getElementById('statNote').innerHTML = '';
+  fetch(`https://api.github.com/users/${GITHUB_USER}`)
+    .then(r=>{ if(!r.ok) throw new Error('user'); return r.json(); })
+    .then(data=>{
+      document.getElementById('statRepos').textContent = data.public_repos ?? '—';
+      document.getElementById('statFollowers').textContent = data.followers ?? '—';
+      document.getElementById('statFollowing').textContent = data.following ?? '—';
+      document.getElementById('statSince').textContent = data.created_at ? new Date(data.created_at).getFullYear() : '—';
+    })
+    .catch(()=> showStatError());
+  loadRepos();
+}
+function showStatError(){
+  const note = document.getElementById('statNote');
+  const msg = lang==='ar' ? 'تعذّر جلب بيانات GitHub الآن.' : 'Could not fetch GitHub data right now.';
+  note.innerHTML = `<span>${msg}</span>`;
+  const retry = document.createElement('button');
+  retry.className = 'retry-btn';
+  retry.textContent = lang==='ar' ? 'إعادة المحاولة' : 'Retry';
+  retry.addEventListener('click', loadGithubStats);
+  note.appendChild(retry);
+}
+function loadRepos(){
+  const grid = document.getElementById('reposGrid');
+  grid.innerHTML = Array(6).fill('<div class="repo-skel"></div>').join('');
+  fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100`)
+    .then(r=>{ if(!r.ok) throw new Error('repos'); return r.json(); })
+    .then(repos=>{
+      allRepos = Array.isArray(repos) ? repos : [];
+      document.getElementById('statStars').textContent = allRepos.reduce((s,r)=> s + (r.stargazers_count||0), 0);
+      document.getElementById('statForks').textContent = allRepos.reduce((s,r)=> s + (r.forks_count||0), 0);
+      renderRepos();
+    })
+    .catch(()=>{
+      grid.innerHTML = '';
+      const err = document.createElement('div');
+      err.className = 'stat-note';
+      err.style.gridColumn = '1/-1';
+      const msg = lang==='ar' ? 'تعذّر جلب المستودعات.' : 'Could not fetch repositories.';
+      err.innerHTML = `<span>${msg}</span>`;
+      const retry = document.createElement('button');
+      retry.className = 'retry-btn';
+      retry.textContent = lang==='ar' ? 'إعادة المحاولة' : 'Retry';
+      retry.addEventListener('click', loadRepos);
+      err.appendChild(retry);
+      grid.appendChild(err);
+    });
+}
+function renderRepos(){
+  if(!allRepos.length) return;
+  const grid = document.getElementById('reposGrid');
+  const top = [...allRepos].sort((a,b)=> (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at))).slice(0,6);
+  if(!top.length){
+    grid.innerHTML = `<p class="section-lead" style="grid-column:1/-1">${lang==='ar'?'لا توجد مستودعات عامة بعد.':'No public repositories yet.'}</p>`;
+    return;
+  }
+  grid.innerHTML = top.map(r=>`
+    <a class="repo-card" href="${r.html_url}" target="_blank" rel="noopener noreferrer">
+      <h3>${r.name}</h3>
+      <p>${r.description ? r.description : (lang==='ar'?'بدون وصف':'No description')}</p>
+      <div class="repo-meta">
+        <span>★ ${r.stargazers_count}</span>
+        <span>⑂ ${r.forks_count}</span>
+        <span>${r.language || '—'}</span>
+        <span>${new Date(r.updated_at).toLocaleDateString(lang==='ar'?'ar':'en')}</span>
+      </div>
+    </a>
+  `).join('');
+  revealOnScroll('#reposGrid .repo-card');
+}
+
+/* =========================================================
+   TERMINAL
+   ========================================================= */
+const termOutput = document.getElementById('termOutput');
+const termInput = document.getElementById('termInput');
+const TERM_COMMANDS = ['help','about','skills','repos','github','contact','clear','access'];
+const HIDDEN_COMMANDS = ['whoami','matrix','secret'];
+let termUnlocked = false;
+let termHistory = [];
+let termHistIdx = -1;
+const UNLOCK_CODE = 'demonio';
+
+function termPrint(text, cls){
+  const div = document.createElement('div');
+  div.className = 'line' + (cls ? ' '+cls : '');
+  div.textContent = text;
+  termOutput.appendChild(div);
+  termOutput.scrollTop = termOutput.scrollHeight;
+}
+function termPrintPrompt(cmd){
+  const div = document.createElement('div');
+  div.className = 'line prompt';
+  div.textContent = `demonio@dev:~$ ${cmd}`;
+  termOutput.appendChild(div);
+}
+function termRun(raw){
+  const trimmed = raw.trim();
+  if(trimmed === '') return;
+  const cmd = trimmed.split(/\s+/)[0].toLowerCase();
+  termPrintPrompt(raw);
+  termHistory.push(raw);
+  termHistIdx = termHistory.length;
+  switch(cmd){
+    case 'help':
+      termPrint('help, about, skills, repos, github, contact, clear', 'out');
+      termPrint('(some systems have more than one layer.)', 'out');
+      break;
+    case 'about':
+      termPrint('DEMONIO — JavaScript & Python developer building Node.js bots.', 'out');
+      break;
+    case 'skills':
+      termPrint('JavaScript, Node.js, Python, Git, Linux', 'out');
+      break;
+    case 'repos':
+      if(allRepos.length){
+        allRepos.slice(0,6).forEach(r=> termPrint(r.name, 'out'));
+      } else {
+        termPrint('loading GitHub data... try again in a second.', 'out');
+      }
+      break;
+    case 'github':
+      termPrint('https://github.com/demonio-dev', 'out');
+      break;
+    case 'contact':
+      termPrint('Telegram: @ch_demonio', 'out');
+      break;
+    case 'clear':
+      termOutput.innerHTML = '';
+      break;
+    case 'access': {
+      const parts = raw.trim().split(/\s+/);
+      const code = parts[1] ? parts[1].toLowerCase() : '';
+      if(!code){
+        termPrint('usage: access <code>', 'out');
+      } else if(code === UNLOCK_CODE){
+        termUnlocked = true;
+        termPrint('access granted. new commands unlocked: whoami, matrix, secret', 'out');
+      } else {
+        termPrint('access denied.', 'err');
+      }
+      break;
+    }
+    case 'whoami':
+      if(termUnlocked) termPrint('root@demonio — builder of bots that don\'t sleep.', 'out');
+      else termPrint(`command not found: ${cmd}`, 'err');
+      break;
+    case 'secret':
+      if(termUnlocked) termPrint('you found the hidden layer. thanks for looking closer.', 'out');
+      else termPrint(`command not found: ${cmd}`, 'err');
+      break;
+    case 'matrix':
+      if(termUnlocked){
+        termPrint('initializing...', 'out');
+        let i = 0;
+        const chars = '01';
+        const burst = setInterval(()=>{
+          let row = '';
+          for(let k=0;k<40;k++) row += chars[Math.floor(Math.random()*2)];
+          termPrint(row, 'out');
+          i++;
+          if(i>=6){ clearInterval(burst); termPrint('...back to normal.', 'out'); }
+        }, 80);
+      } else termPrint(`command not found: ${cmd}`, 'err');
+      break;
+    default:
+      termPrint(`command not found: ${cmd}`, 'err');
+  }
+}
+termInput.addEventListener('keydown', e=>{
+  if(e.key === 'Enter'){ termRun(termInput.value); termInput.value=''; }
+  else if(e.key === 'ArrowUp'){
+    e.preventDefault();
+    if(termHistIdx > 0){ termHistIdx--; termInput.value = termHistory[termHistIdx] || ''; }
+  }
+  else if(e.key === 'ArrowDown'){
+    e.preventDefault();
+    if(termHistIdx < termHistory.length-1){ termHistIdx++; termInput.value = termHistory[termHistIdx] || ''; }
+    else { termHistIdx = termHistory.length; termInput.value=''; }
+  }
+  else if(e.key === 'Tab'){
+    e.preventDefault();
+    const val = termInput.value.toLowerCase();
+    const pool = termUnlocked ? TERM_COMMANDS.concat(HIDDEN_COMMANDS) : TERM_COMMANDS;
+    const match = pool.find(c => c.startsWith(val));
+    if(match) termInput.value = match;
+  }
+});
+termPrint('DEMONIO terminal — type "help" to start.', 'out');
+
+/* =========================================================
+   COMMAND PALETTE
+   ========================================================= */
+const overlay = document.getElementById('cmdOverlay');
+const cmdInput = document.getElementById('cmdInput');
+const cmdList = document.getElementById('cmdList');
+const COMMANDS = [
+  { ar:'الرئيسية', en:'Home', tag:'go', action:()=>scrollToId('home') },
+  { ar:'عني', en:'About', tag:'go', action:()=>scrollToId('about') },
+  { ar:'الأدوات', en:'Stack', tag:'go', action:()=>scrollToId('stack') },
+  { ar:'خدمات', en:'Services', tag:'go', action:()=>scrollToId('services') },
+  { ar:'إحصائيات GitHub', en:'GitHub', tag:'go', action:()=>scrollToId('github') },
+  { ar:'مسار المطوّر', en:'Journey', tag:'go', action:()=>scrollToId('journey') },
+  { ar:'تواصل', en:'Contact', tag:'go', action:()=>scrollToId('contact') },
+  { ar:'فتح GitHub', en:'Open GitHub', tag:'open', action:()=>window.open('https://github.com/demonio-dev','_blank','noopener,noreferrer') },
+  { ar:'فتح Telegram', en:'Open Telegram', tag:'open', action:()=>window.open('https://t.me/ch_demonio','_blank','noopener,noreferrer') },
+  { ar:'تبديل اللغة', en:'Switch language', tag:'do', action:()=>langBtn.click() },
+  { ar:'العودة للأعلى', en:'Back to top', tag:'do', action:()=>window.scrollTo({top:0,behavior:'smooth'}) },
+];
+function scrollToId(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+let selIndex = 0;
+function renderCmdList(filter=''){
+  const items = COMMANDS.filter(c => (lang==='ar'?c.ar:c.en).toLowerCase().includes(filter.toLowerCase()));
+  cmdList.innerHTML = '';
+  items.forEach((c,i)=>{
+    const div = document.createElement('div');
+    div.className = 'cmd-item' + (i===selIndex ? ' sel' : '');
+    div.innerHTML = `<span>${lang==='ar'?c.ar:c.en}</span><span class="tag">${c.tag}</span>`;
+    div.addEventListener('click', ()=>{ c.action(); closeCmd(); });
+    cmdList.appendChild(div);
+  });
+  return items;
+}
+function openCmd(){ overlay.classList.add('open'); cmdInput.value=''; selIndex=0; renderCmdList(); cmdInput.focus(); }
+function closeCmd(){ overlay.classList.remove('open'); }
+document.getElementById('cmdTrigger').addEventListener('click', openCmd);
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeCmd(); });
+cmdInput.addEventListener('input', ()=>{ selIndex=0; renderCmdList(cmdInput.value); });
+document.addEventListener('keydown', e=>{
+  const activeIsField = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
+  if(e.key === '/' && !activeIsField){ e.preventDefault(); openCmd(); }
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); openCmd(); }
+  if(e.key === 'Escape') closeCmd();
+  if(overlay.classList.contains('open')){
+    const items = renderCmdList(cmdInput.value);
+    if(e.key === 'ArrowDown'){ e.preventDefault(); selIndex = Math.min(selIndex+1, items.length-1); renderCmdList(cmdInput.value); }
+    if(e.key === 'ArrowUp'){ e.preventDefault(); selIndex = Math.max(selIndex-1, 0); renderCmdList(cmdInput.value); }
+    if(e.key === 'Enter' && items[selIndex]){ items[selIndex].action(); closeCmd(); }
+  }
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+applyLang();
+loadGithubStats();
+</script>
+
+</body>
+</html>
